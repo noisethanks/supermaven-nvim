@@ -88,20 +88,18 @@ function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
             opts.virt_lines = { { { first_line, self.suggestion_group } } }
         end
 
-        if #other_lines > 0 then
-            for _, line in ipairs(other_lines) do
-                table.insert(opts.virt_lines, line)
-            end
+        for _, line in ipairs(other_lines) do
+            table.insert(opts.virt_lines, line)
         end
     else
-            -- prints the first line on the same line as the cursor
-            if first_line ~= "" then
-                opts.virt_text = { { first_line, self.suggestion_group } }
-            end
-            -- sets the other lines to the virtual lines under the first line
-            if #other_lines > 0 then
-                opts.virt_lines = other_lines
-            end
+        -- prints the first line on the same line as the cursor
+        if first_line ~= "" then
+            opts.virt_text = { { first_line, self.suggestion_group } }
+        end
+        -- sets the other lines to the virtual lines under the first line
+        if #other_lines > 0 then
+            opts.virt_lines = other_lines
+        end
     end
 
     local _extmark_id = vim.api.nvim_buf_set_extmark(buf, self.ns_id, vim.fn.line(".") - 1, vim.fn.col(".") - 1, opts)
