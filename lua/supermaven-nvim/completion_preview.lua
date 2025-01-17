@@ -6,7 +6,7 @@ local CompletionPreview = {
     suggestion_group = "Comment",
     disable_inline_completion = false,
     single_line_suggestion_newline = false,
-    pad_current_line_suggestion = false,
+    show_diff_only = false, 
 }
 
 CompletionPreview.__index = CompletionPreview
@@ -79,7 +79,7 @@ function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
 
     opts.virt_text_win_col = vim.fn.virtcol(".") - 1
     if self.single_line_suggestion_newline then
-        if self.pad_current_line_suggestion then
+        if self.show_diff_only then
             opts.virt_lines = { {
                 { string.rep(" ", opts.virt_text_win_col), self.suggestion_group },
                 { first_line,                              self.suggestion_group }

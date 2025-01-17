@@ -8,7 +8,7 @@ local default_config = {
   disable_inline_completion = false,
   disable_keymaps = false,
   single_line_suggestion_newline = false,
-  pad_current_line_suggestion = false,
+  show_diff_only = false,
   condition = function()
     return false
   end,
