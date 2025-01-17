@@ -7,7 +7,7 @@ local default_config = {
   ignore_filetypes = {},
   disable_inline_completion = false,
   disable_keymaps = false,
-  single_line_suggestions_newline = false,
+  single_line_suggestion_newline = false,
   pad_current_line_suggestion = false,
   condition = function()
     return false

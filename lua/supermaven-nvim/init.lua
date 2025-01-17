@@ -11,8 +11,6 @@ M.setup = function(args)
 
   if config.disable_inline_completion then
     completion_preview.disable_inline_completion = true
-    completion_preview.single_line_suggestions_newline = config.single_line_suggestions_newline
-        completion_preview.pad_current_line_suggestion = config.pad_current_line_suggestion
   elseif not config.disable_keymaps then
     if config.keymaps.accept_suggestion ~= nil then
       local accept_suggestion_key = config.keymaps.accept_suggestion
@@ -40,6 +38,8 @@ M.setup = function(args)
     end
   end
 
+    completion_preview.single_line_suggestion_newline = config.single_line_suggestion_newline
+    completion_preview.pad_current_line_suggestion = config.pad_current_line_suggestion
   commands.setup()
 
   local cmp_ok, cmp = pcall(require, "cmp")

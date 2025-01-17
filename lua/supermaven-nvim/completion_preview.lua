@@ -5,7 +5,7 @@ local CompletionPreview = {
     ns_id = vim.api.nvim_create_namespace("supermaven"),
     suggestion_group = "Comment",
     disable_inline_completion = false,
-    single_line_suggestions_newline = false,
+    single_line_suggestion_newline = false,
     pad_current_line_suggestion = false,
 }
 
@@ -40,7 +40,7 @@ function CompletionPreview:render_with_inlay(
     local other_lines = processed_text.other_lines
 
     local is_floating = (#line_after_cursor > 0) and (not u.contains(first_line, line_after_cursor))
-    if not self.single_line_suggestions_newline and is_floating then
+    if not self.single_line_suggestion_newline and is_floating then
         self:render_floating(first_line, opts, buf, line_before_cursor)
         completion_text = first_line
     else
@@ -78,7 +78,7 @@ function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
     end
 
     opts.virt_text_win_col = vim.fn.virtcol(".") - 1
-    if self.single_line_suggestions_newline then
+    if self.single_line_suggestion_newline then
         if self.pad_current_line_suggestion then
             opts.virt_lines = { {
                 { string.rep(" ", opts.virt_text_win_col), "" },
