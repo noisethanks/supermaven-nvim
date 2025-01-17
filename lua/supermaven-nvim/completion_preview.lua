@@ -85,7 +85,11 @@ function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
                 { first_line,                              self.suggestion_group }
             } }
         else
-            opts.virt_lines = { { { first_line, self.suggestion_group } } }
+            local current_line = vim.api.nvim_get_current_line()
+            local prefix = string.sub(current_line, 1, opts.virt_text_win_col)
+            opts.virt_lines = { {
+                { prefix,     "" },
+                { first_line, self.suggestion_group } } }
         end
 
         for _, line in ipairs(other_lines) do
