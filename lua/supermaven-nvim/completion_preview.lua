@@ -5,6 +5,7 @@ local CompletionPreview = {
   ns_id = vim.api.nvim_create_namespace("supermaven"),
   suggestion_group = "Comment",
   disable_inline_completion = false,
+  single_line_suggestions_newline = false, 
 }
 
 CompletionPreview.__index = CompletionPreview
@@ -38,8 +39,7 @@ function CompletionPreview:render_with_inlay(
   local other_lines = processed_text.other_lines
 
   local is_floating = (#line_after_cursor > 0) and (not u.contains(first_line, line_after_cursor))
-  if_floating = false 
-  if is_floating then
+  if not self.single_line_suggestions_newline and is_floating then
     self:render_floating(first_line, opts, buf, line_before_cursor)
     completion_text = first_line
   else
@@ -75,36 +75,31 @@ function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
   if self.disable_inline_completion then
     return
   end
-local col = vim.fn.virtcol(".") - 1
--- First line with padding
-local virt_lines = { { 
-  { string.rep(" ", col), "" },
-  { first_line, self.suggestion_group }
-} }
--- Append other lines
-for _, line in ipairs(other_lines) do
-    table.insert(virt_lines, line)
+
+  opts.virt_text_win_col = vim.fn.virtcol(".") - 1
+if first_line ~= "" then
+        opts.virt_lines = { { { first_line, self.suggestion_group } } }
+  -- opts.virt_lines = { { 
+  --   { string.rep(" ", opts.virt_text_win_col), "" },  -- padding with no highlight
+  --   { first_line, self.suggestion_group }
+  -- } }
 end
-opts.virt_lines = virt_lines
--- if first_line ~= "" then
---   local col = vim.fn.virtcol(".") - 1
---   -- Create a padding chunk with spaces, then the text chunk
---   opts.virt_lines = { { 
---     { string.rep(" ", col), "" },  -- padding with no highlight
---     { first_line, self.suggestion_group }
---   } }
--- end
--- if first_line ~= "" then
---   opts.virt_lines = { { { first_line, self.suggestion_group } } }
--- end
+-- Append other lines
+
+    if #other_lines > 0 then
+for _, line in ipairs(other_lines) do
+    table.insert(opts.virt_lines, line)
+end
+end
+    -- prints the first line on the same line as the cursor
     -- if first_line ~= "" then
     --     opts.virt_text = { { first_line, self.suggestion_group } }
     -- end
+    -- sets the other lines to the virtual lines under the first line
     -- if #other_lines > 0 then
     --     opts.virt_lines = other_lines
     -- end
 
-    opts.virt_text_win_col = vim.fn.virtcol(".") - 1
 
 local _extmark_id = vim.api.nvim_buf_set_extmark(buf, self.ns_id, vim.fn.line(".") - 1, vim.fn.col(".") - 1, opts)
 end
