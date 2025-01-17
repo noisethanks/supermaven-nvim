@@ -81,14 +81,14 @@ function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
     if self.single_line_suggestion_newline then
         if self.pad_current_line_suggestion then
             opts.virt_lines = { {
-                { string.rep(" ", opts.virt_text_win_col), "" },
+                { string.rep(" ", opts.virt_text_win_col), self.suggestion_group },
                 { first_line,                              self.suggestion_group }
             } }
         else
             local current_line = vim.api.nvim_get_current_line()
             local prefix = string.sub(current_line, 1, opts.virt_text_win_col)
             opts.virt_lines = { {
-                { prefix,     "" },
+                { prefix,     self.suggestion_group },
                 { first_line, self.suggestion_group } } }
         end
 
