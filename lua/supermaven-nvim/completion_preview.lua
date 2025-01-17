@@ -80,10 +80,10 @@ function CompletionPreview:render_standard(first_line, other_lines, opts, buf)
   opts.virt_text_win_col = vim.fn.virtcol(".") - 1
 if first_line ~= "" then
         if self.pad_current_line_suggestion then 
-  opts.virt_lines = { { 
-    { string.rep(" ", opts.virt_text_win_col), "" },  -- padding with no highlight
-    { first_line, self.suggestion_group }
-  } }
+        opts.virt_lines = { { 
+        { string.rep(" ", opts.virt_text_win_col), "" },  -- padding with no highlight
+        { first_line, self.suggestion_group }
+        } }
         else 
             opts.virt_lines = { { { first_line, self.suggestion_group } } }
         end

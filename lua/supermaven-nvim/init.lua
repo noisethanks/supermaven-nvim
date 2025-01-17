@@ -12,6 +12,7 @@ M.setup = function(args)
   if config.disable_inline_completion then
     completion_preview.disable_inline_completion = true
     completion_preview.single_line_suggestions_newline = config.single_line_suggestions_newline
+        completion_preview.pad_current_line_suggestions = config.pad_current_line_suggestions
   elseif not config.disable_keymaps then
     if config.keymaps.accept_suggestion ~= nil then
       local accept_suggestion_key = config.keymaps.accept_suggestion
